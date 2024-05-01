@@ -1,0 +1,1 @@
+ATM Machine code to 'Enter card number', 'Enter pin', 'Enter amount' and moving to next transaction. It checks throughout the code either length and value matches, check the amount of ATM is sufficient or not and updates the left amount in ATM machine. Can repeat the whole process until amount ran out or user reload the page
