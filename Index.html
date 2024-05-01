@@ -174,7 +174,7 @@
             }
             console.log("Available Amount in ATM : "+sum)
             console.log("Entered Amount : "+money_value)
-            if(sum>=money_value){
+            if(money_value<=sum){
                 var c2000=0,c500=0,c200=0,c100=0
                 while(money_value!=0){
                     if(money_value>=2000 && c2000!=money[2000]){
@@ -194,7 +194,11 @@
                         c100++
                     }
                     else{
-                        console.log("in else of currency")
+                        alert("Invalid Amount. Enter Valid Amount")
+                        // bool=false
+                        document.getElementById("money").value = "";
+                        break
+                        // console.log("in else of currency")
                     }
                 }
 
