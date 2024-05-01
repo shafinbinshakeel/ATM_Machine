@@ -1,4 +1,4 @@
-NOTE :- Card Number and their Pin are in Object named as card_num and money rewspectively.
+NOTE :- Card Number and their Pin are in Object named as card_num and money respectively.
 
 ATM Machine code is to 'Enter card number', 'Enter pin', 'Enter amount' and then moving to next transaction.
 It checks throughout the code either length and value of card number and pin matches or not.
