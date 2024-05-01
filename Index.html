@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #nextTransaction{
+            background-color: green;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            padding: 10px;
+            margin: 3px;
+        }
+        button{
+            background-color: blue;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            padding: 10px;
+            margin: 3px;
+        }
+        #pinDiv, #moneyDiv, #nextTransaction{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div id="cardDiv">
+            <label>Enter Card Number</label><br>
+            <input type="text" name="card_num" id="card_num"  class="card_num" maxlength="12" pattern=/^\d+$/; onchange="fun1()"><br>
+            <button id="toPin">Next</button><br>
+            <!-- <input type="text" name="card_num" id="card_num" onchange="fun1()" placeholder="" minlength="12" maxlength="12" onkeyup="fun1()"><br> -->
+        </div>
+
+        <div id="pinDiv">
+            <label>Enter Card Pin</label><br>
+            <input type="text" name="pin" id="pin" maxlength="4" placeholder="" onchange="fun2()"><br>
+            <button id="toMoney">Next</button><br>
+        </div>
+
+        <div id="moneyDiv">
+            <label>Enter Amount</label><br>
+            <input type="text" name="money" id="money" placeholder="" onchange="fun3()"><br>
+            <button id="toNextTransaction">Next</button><br>
+        </div>
+
+        <button id="nextTransaction" onclick="fun7()" type="submit">Next Transaction</button>
+    </div>
+    <script>
+        var bool=true
+        let cardDiv=document.getElementById("cardDiv")
+        let pinDiv=document.getElementById("pinDiv")
+        let moneyDiv=document.getElementById("moneyDiv")
+        let nextTransaction=document.getElementById("nextTransaction")
+        document.getElementById("toPin").addEventListener("click",fun4)
+        function fun4(){
+            if(bool=false){
+                cardDiv.style.display="block"
+                pinDiv.style.display="none"
+                // document.getElementById("card_num").value = "";   
+            }
+            else{
+                cardDiv.style.display="none"
+                pinDiv.style.display="block"
+            }   
+        }
+
+        document.getElementById("toMoney").addEventListener("click",fun5)
+        function fun5(){
+            if(bool=false){
+                moneyDiv.style.display="none"
+                pinDiv.style.display="block"
+                // document.getElementById("pin").value = ""; 
+            }
+            else{
+                pinDiv.style.display="none"
+                moneyDiv.style.display="block"
+            }
+        }
+
+        document.getElementById("toNextTransaction").addEventListener("click",fun6)
+        function fun6(){
+            moneyDiv.style.display="none"
+            nextTransaction.style.display="block"
+        }
+
+        document.getElementById("nextTransaction").addEventListener("click",fun7)
+        function fun7(){
+            cardDiv.style.display="block"
+            nextTransaction.style.display="none"
+            document.getElementById("card_num").value = "";
+        }
+ 
+        var cardDetails={
+            553866667890:2222,
+            555566783945:6778,
+            666677778888:1111,
+            123456789101:5104
+        }
+        var money={
+            100:50,
+            200:10,
+            500:7,
+            2000:15
+        }
+        console.log(cardDetails)
+        console.log(money)
+
+        var card_num=document.getElementById("card_num")
+        function fun1(bool){
+            if(card_num.value.length==12){
+                var card_num_value=card_num.value
+                console.log("Entered Card Number : "+card_num_value)
+                var count=0
+                for(let key in cardDetails){
+                    if(key==card_num_value){
+                        break
+                    }
+                    else{
+                        count++
+                        if(count==Object.keys(cardDetails).length){
+                            alert("Card Number not Matched")
+                            bool=false
+                            document.getElementById("card_num").value = "";
+                        }
+                    }
+                }   
+            }
+            else{
+                alert("Card length not Matched")
+                bool=false
+                document.getElementById("card_num").value = "";
+            }
+            document.getElementById("pin").value = "";
+        }
+
+        var pin=document.getElementById("pin")
+        function fun2(bool){
+            var card_num_value=card_num.value
+            if(pin.value.length==4){
+                var pin_value=pin.value
+                console.log("Entered Card Pin : "+pin_value)
+                var count=0
+                for(let value in cardDetails){
+                    if(value==card_num_value && cardDetails[value]==pin_value){
+                    }
+                    else{
+                        count++
+                        if(count==Object.keys(money).length){
+                            alert("Pin not Matched")
+                            bool=false
+                            document.getElementById("pin").value = "";
+                        }
+                    }
+                }
+            }
+            else{
+                alert("Pin Length not Matched")
+                bool=false
+                document.getElementById("pin").value = "";
+            }
+            document.getElementById("money").value = "";
+        }
+
+        var tAmount=document.getElementById("money")
+        function fun3(){
+            var money_value=tAmount.value
+            var sum=0
+            for(let value in money){
+                sum=sum+(money[value]*value)
+            }
+            console.log("Available Amount in ATM : "+sum)
+            console.log("Entered Amount : "+money_value)
+            if(sum>=money_value){
+                var c2000=0,c500=0,c200=0,c100=0
+                while(money_value!=0){
+                    if(money_value>=2000 && c2000!=money[2000]){
+                        money_value=money_value-2000
+                        c2000++
+                    }
+                    else if(money_value>=500 && c500!=money[500]){
+                        money_value=money_value-500
+                        c500++
+                    }
+                    else if(money_value>=200 && c200!=money[200]){
+                        money_value=money_value-200
+                        c200++
+                    }
+                    else if(money_value>=100 && c100!=money[100]){
+                        money_value=money_value-100
+                        c100++
+                    }
+                    else{
+                        console.log("in else of currency")
+                    }
+                }
+
+                // console.log(`2000 notes : ${c2000}\n500 notes : ${c500}\n200 notes : ${c200}\n100 notes : ${c100}`)
+                console.log("Currency Quantity Before Transaction:")
+                console.log(money)
+                for(let value in money){                                                        //to update the real time deduction of money from object
+                    if(value==100){
+                        money[100]=money[value]-c100        
+                    }
+                    else if(value==200){
+                        money[200]=money[value]-c200        
+                    }
+                    else if(value==500){
+                        money[500]=money[value]-c500        
+                    }
+                    else if(value==2000){
+                        money[2000]=money[value]-c2000        
+                    }
+                    else{
+                        continue
+                    }
+                }
+                console.log("Currency Quantity After Transaction :")
+                console.log(money)
+                var i=1
+                while(i!=0){                                                        //for printing the currency
+                    if(c2000!=0){
+                        console.log(`2000 x ${c2000}`)
+                    }
+                    if(c500!=0){
+                        console.log(`500 x ${c500}`)
+                    }
+                    if(c200!=0){
+                        console.log(`200 x ${c200}`)
+                    }
+                    if(c100!=0){
+                        console.log(`100 x ${c100}`)
+                    }
+                    else{
+                        break
+                    }
+                    i--
+                }
+            }
+            else{
+                alert("Insufficient Balance in ATM")
+                document.getElementById("money").value = "";
+            }
+        }
+    </script>
+</body>
+</html>
