@@ -56,7 +56,8 @@
         let moneyDiv=document.getElementById("moneyDiv")
         let currencyDisplay=document.getElementById("currencyDisplay")
         let nextTransaction=document.getElementById("nextTransaction")
-
+ 
+ 
         var cardDetails={
             553866667890:2222,
             555566783945:6778,
@@ -69,16 +70,21 @@
             500:7,
             2000:15
         }
+
         console.log(cardDetails)
         console.log(money)
         var money1={...money}
-
+        var temp
+        for(let item in money){
+            temp=item
+            break
+        }
+ 
         var card_num=document.getElementById("card_num")
         card_num.addEventListener("input",(e)=>{
             var enteredCardNum=e.target.value
-            e.target.style.border="1px solid black"
+            e.target.style.removeProperty("border")
             if(isNaN(enteredCardNum)){
-                e.target.style.outline="none"
                 alert("enter valid card num in number only")
                 e.target.value=""
             }
@@ -89,6 +95,8 @@
                     var count=0
                     for(let key in cardDetails){
                         if(key==card_num_value){
+                            e.target.style.outline="none"
+                            e.target.style.border="2px solid green" 
                             bool=true
                             break
                         }
@@ -101,8 +109,6 @@
                             }
                         }
                     }
-                    e.target.style.outline="none"
-                    e.target.style.border="2px solid green"  
                 }
                 else{
                     e.target.style.outline="none"
@@ -117,7 +123,7 @@
         function fun4(){
             if(bool==false){
                 cardDiv.style.display="block"
-                pinDiv.style.display="none"
+                card_num.style.removeProperty("border")
                 alert("Card length not Matched")
                 document.getElementById("card_num").value = "";
             }
@@ -126,11 +132,11 @@
                 pinDiv.style.display="block"
             }  
         }
- 
+
         var pin=document.getElementById("pin")
         pin.addEventListener("input",(e)=>{
             var enteredPin=e.target.value
-            e.target.style.border="1px solid black"
+            e.target.style.removeProperty("border")
             if(isNaN(enteredPin)){
                 e.target.style.outline="none"
                 alert("enter valid pin in number only")
@@ -144,6 +150,8 @@
                     var count=0
                     for(let value in cardDetails){
                         if(value==card_num_value && cardDetails[value]==pin_value){
+                            e.target.style.outline="none"
+                            e.target.style.border="2px solid green"
                             bool=true
                         }
                         else{
@@ -155,8 +163,6 @@
                             }
                         }
                     }
-                    e.target.style.outline="none"
-                    e.target.style.border="2px solid green"
                 }
                 else{
                     e.target.style.outline="none"
@@ -170,8 +176,8 @@
         document.getElementById("toMoney").addEventListener("click",fun5)
         function fun5(){
             if(bool==false){
-                moneyDiv.style.display="none"
                 pinDiv.style.display="block"
+                pin.style.removeProperty("border")
                 alert("Pin length not Matched")
                 document.getElementById("pin").value = "";
             }
@@ -182,6 +188,15 @@
         }
         
         var tAmount=document.getElementById("money")
+        tAmount.addEventListener("input",(e)=>{
+            var enteredAmount=e.target.value
+            e.target.style.border="1px solid black"
+            if(isNaN(enteredAmount)){
+                e.target.style.outline="none"
+                alert("enter amount in number only")
+                e.target.value=""
+            } 
+        })
         tAmount.addEventListener("change",(e)=>{
             var enteredAmount=e.target.value
             e.target.style.border="1px solid black"
@@ -198,12 +213,15 @@
                 }
                 console.log("Available Amount in ATM : "+sum)
                 console.log("Entered Amount : "+money_value)
-                if(money_value<=sum && money_value!=0){
+                if(money_value<=sum && money_value!=0 && (money_value%temp!=0)==false){
                     bool= true
                 }
                 else{
                     if(money_value==0){
-                        alert("Enter amount in multiples of 100")
+                        alert(`Cannot be 0.Minimum amount should be ${temp}`)
+                    }
+                    else if(money_value%temp!=0){
+                        alert(`Enter amount in multiples of ${temp}`)
                     }
                     else{
                         alert("Insufficient Balance in ATM")
@@ -246,9 +264,10 @@
                         arr.shift()
                         arrval.shift()
                     }
-                }       
+                }
+                    
                 console.log("Currency Quantity After Transaction :")
-                console.log(money)   
+                console.log(money)
                 currencyDisplay.innerHTML=""
                 for(let ele in money){
                     for(let ele1 in money1){
@@ -279,7 +298,7 @@
             nextTransaction.style.display="none"
             currencyDisplay.style.display="none"
             document.getElementById("card_num").value = "";
-        }   
+        }
     </script>
 </body>
 </html>
